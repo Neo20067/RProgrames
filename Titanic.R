@@ -21,6 +21,7 @@ names(asd) <- c("Age","Survived","Sex","Fare","Embarked")
 tr <- cbind(asd,(asd$Age > 18))
 names(tr) <- c("Age","Survived","Sex","Fare","Embarked","Child")
 
+
 tr1 <- factor(tr$Child)
 trc <- as.numeric(tr1)
 trc[trc == "1"] <- "Child"
