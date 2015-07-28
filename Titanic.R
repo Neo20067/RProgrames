@@ -43,10 +43,11 @@ gsocf <- data.frame(gso,gsoc)
 gsocfo <- gsocf[with(gsocf, order(gsocf$Sex)), ]
 names(gsocfo) <- c("Sex","Survived","Count","Survived1")
 # Sex Vs Survived
-barplot(gsocfo$Count, xlab = "Gender",ylab = "Survived",main = "Gender and Survived",col=rainbow(2),legend=gsocfo$Survived1[1:2],names.arg = gsocfo$Sex)
+ssb <- barplot(gsocfo$Count, xlab = "Gender",ylab = "Survived",main = "Gender and Survived",col=rainbow(2),legend=gsocfo$Survived1[1:2],names.arg = gsocfo$Sex)
+text(ssb, 0, round(gsocfo$Count, 1),cex=1,pos=toupper(3))
 # .......................................................................................................................
-as <- table(trc,as1$Survived)
-asdframe <- data.frame(as)
+ass <- table(trc,as1$Survived)
+asdframe <- data.frame(ass)
 names(asdframe) <- c("Child","Survived","Count")
 asdframeo <- asdframe[with(asdframe, order(asdframe$Child)),]
 asdframeos <- factor(asdframeo$Survived)
@@ -56,7 +57,8 @@ asdframeoc[asdframeoc == "1"] <- "Survived"
 asdframeof <- data.frame(asdframeo,asdframeoc)
 names(asdframeof) <- c("Child","Survived","Count","Survived1")
 # Age Vs Survived
-# barplot(asdframeof$Count, xlab = "Child or Elder",ylab = "Survived",main = "Age and Survived",col=rainbow(2),legend=asdframeof$Survived1[1:2],names.arg = asdframeof$Child)
+# asb <- barplot(asdframeof$Count, xlab = "Child or Elder",ylab = "Survived",main = "Age and Survived",col=rainbow(2),legend=asdframeof$Survived1[1:2],names.arg = asdframeof$Child)
+# text(asb, 0, round(asdframeof$Count, 1),cex=1,pos=toupper(3))
 # ......................................................................................................................
 # Fare Vs Survived
 fs <- table(as1$Fare,as1$Survived)
@@ -84,7 +86,8 @@ astff <- data.frame(ast,fsdcsc)
 names(astff) <- c("Survived","Fare","Cost","Survived1")
 # hist(fsd$Count,breaks=12,col="red",xlab="Fares",main="Fare Vs Survived")
 # Fare Vs Survived
-# barplot(astff$Cost, xlab = "Ticket Cost",ylab = "Survived",main = "Ticket Cost and Survived",col=rainbow(2),legend=astff$Survived1[1:2],names.arg = astff$Fare)
+# fsb <- barplot(astff$Cost, xlab = "Ticket Cost",ylab = "Survived",main = "Ticket Cost and Survived",col=rainbow(2),legend=astff$Survived1[1:2],names.arg = astff$Fare)
+# text(fsb, 0, round(astff$Cost, 1),cex=1,pos=toupper(3))
 # ...........................................................................
 # Embarked vs Servived
 es <- table(as1$Embarked,as1$Survived)
@@ -99,7 +102,10 @@ esdcc[esdcc == "1"] <- "Survived"
 esdss <- data.frame(esd,esdcc)
 names(esdss) <- c("Embarked","Survived","Count","Survivedc")
 esdo <- esdss[with(esdss, order(esdss$Embarked)),]
+remo <- which(esdo$Embarked == "")
+esdo <- esdo[-remo,]
 # Embarked Vs Survived
- # barplot(esdo$Count, xlab = "Port",ylab = "Survived",main = "Port and Survived",col=rainbow(2),legend=esdo$Survivedc[1:2],names.arg = esdo$Embarked)
+# esb<- barplot(esdo$Count, beside =TRUE , xlab = "Port",ylab = "Survived",main = "Port and Survived",col=rainbow(2),legend=esdo$Survivedc[1:2],names.arg = esdo$Embarked)
+# text(esb, 0, round(esdo$Count, 1),cex=1,pos=toupper(3))
 
 
