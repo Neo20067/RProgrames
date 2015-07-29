@@ -18,7 +18,7 @@ userd <- data.frame(snow,drogn)
 colnames(userd) <- c("Snow Crash","Girl with the Dragon Tattoo")
 rownames(userd) <- c("Amy","Bill","Jim")
 
-# ddd <- dist(userd,method = "euclidian",diag = TRUE, upper = TRUE, p = 2)
+ddd <- dist(userd,method = "euclidian",diag = TRUE, upper = TRUE, p = 2)
 
 userm <- matrix(c(5,5,2,5,1,4),ncol=2,byrow=TRUE)
 colnames(userm) <- c("Snow Crash","Girl with the Dragon Tattoo")
@@ -45,4 +45,25 @@ rownames(ndimend) <- c("Blues Traveler","Broken Bells","Deadmau5","Norah Jones",
 # ndimend$Bill[is.na(ndimend$Bill)] <- 0.00
 md <- ManhattanDistance(ndimend$Angelica,ndimend$Bill)
 ed <- EuclideanDistance(ndimend$Angelica,ndimend$Bill)
+
+ndimend1 <- data.frame(Angelica,Bill,chan,Dan,Hailey,Jordyn,Sam,Veronica)
+rownames(ndimend1) <- c("Angelica","Bill","chan","Dan","Hailey","Jordyn","Sam","Veronica")
+distf <- dist(ndimend1,method = "euclidian",diag = TRUE, upper = TRUE, p = 2)
+
+NearestNeighbor <- function(x){
+  am <- as.matrix(distf)
+  amf <- data.frame(am[x,])
+  colnames(amf) <- c("euclidian")
+  amf <- cbind(Row.Names = rownames(amf), amf)
+  amfs <- arrange(amf,amf$euclidian)
+  amfs$euclidian[amfs$euclidian == 0] <- NA
+  amn <- na.omit(amfs)
+  return (amn)
+}
+KNearestNeighbor <- function(x,y){
+  tt<- NearestNeighbor(x)
+  top <-head(tt,y)
+  return(top)
+}
+
 
