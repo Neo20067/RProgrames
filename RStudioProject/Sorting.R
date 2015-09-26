@@ -30,7 +30,7 @@ insertionsort <- function(x){
 
 n <- sample(1:10000,10000,replace = T)
 n1 <- 10000:1
-n2 <- 1:1000
+n2 <- 1:10000
 # Random Numbers
 sstart <- Sys.time()
 selsortrandom <- selectionsort(n)

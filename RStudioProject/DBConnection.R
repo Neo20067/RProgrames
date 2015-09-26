@@ -20,3 +20,4 @@ barplot(pt1$COUNT,col = c("red","blue","green","yellow"), xlab = "DepartmentId",
 
 
 
+

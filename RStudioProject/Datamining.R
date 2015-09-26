@@ -161,8 +161,63 @@ rownames(mdd) <- c("Angelica","Bill","chan","Dan","Hailey","Jordyn","Sam","Veron
 mddc <- mdd
 rownames(mddc) <- c("Blues Traveler","Broken Bells","Deadmau5","Norah Jones","Phoenix","Slightly Stoopid","The Strokes","Vampire Weekend")
 
-MNNearestNeighbor <- function(x){
-  am <- as.matrix(mdd)
+
+
+correlationcofficient <- function(x,y){
+  n <- length(x)
+  m <- x*y
+  xx <- x^2
+  yy <- y^2
+  sumx <- sum(x)
+  sumy <- sum(y)
+  sumxx <-sum(xx)
+  sumyy <- sum(yy)
+  sumxy <- sum(m)
+  r1 <- n * sumxy - (sumx * sumy)
+  r2 <- ((n * sumxx)-(sumx ^2)) * ((n * sumyy)-(sumy ^2))
+   r <- r1/sqrt(r2)
+  return (r)
+}
+
+s <- c(1,2,3,4,5,6)
+x<-c(43,21,25,42,57,59)
+y<- c(99,65,79,75,87,81)
+df <- data.frame(s,x,y)
+cf <-correlationcofficient(df$x,df$y)
+
+Clara <- c(4.75, 4.5, 5, 4.25, 4)
+Robert <- c(4, 3, 5, 2, 1)
+crdataf <- data.frame(Clara,Robert)
+rownames(crdataf) <- c("Blues Traveler","Norah Jones","Phoenix","The Strokes","Weird Al")
+cf1 <-correlationcofficient(crdataf$Clara,crdataf$Robert)
+
+cosin <- function(x,y){
+  m<- sum(x*y)
+  xx <- x^2
+  yy <- y^2
+  sumxx <- sqrt(sum(xx))
+  sumyy <- sqrt(sum(yy))
+  cos <- m/(sumxx * sumyy)
+  return (cos)
+}
+cosiness<-cosin(crdataf$Clara,crdataf$Robert)
+
+movieratingcsv <- read.csv("/home/abelia/RProgrames/RStudioProject/Movie_Ratings.csv")
+
+movieratingn <-data.frame(movieratingcsv)
+movierownames <- movieratingn
+rownames(movierownames) <- movierownames$X
+fdf <-movierownames[,2:26]
+movierating <- data.frame(movieratingcsv[,2:26])
+movierating[is.na(movierating)] <- 0.00
+mre <- dist(movierating,method = "euclidian",diag = TRUE, upper = TRUE, p = 2)
+mrem <-as.matrix(mre)
+mredataframe <- as.data.frame(mrem)
+colnames(mredataframe) <- c(colnames(movieratingn[,2:26]))
+rownames(mredataframe) <- c(colnames(movieratingn[,2:26]))
+
+MNNearestNeighbor <- function(x,df){
+  am <- as.matrix(df)
   amf <- data.frame(am[x,])
   colnames(amf) <- c("manhattan")
   amf <- cbind(Row.Names = rownames(amf), amf)
@@ -172,22 +227,26 @@ MNNearestNeighbor <- function(x){
   return (amn)
 }
 
-KMNNearestNeighbor <- function(x,y){
-  tt<- MNNearestNeighbor(x)
+KMNNearestNeighbor <- function(x,df,y){
+  tt<- MNNearestNeighbor(x,df)
   top <-head(tt,y)
   return(top)
 }
-recommend <- function(x1){
-  nn1 <-KMNNearestNeighbor(x1,1)
+recommend <- function(x1,df,fdf){
+  nn1 <-KMNNearestNeighbor(x1,df,1)
   z <- eval(( text=paste(nn1$Row.Names)))
-  ndimend<- cbind(Row.Names = rownames(ndimend), ndimend)
-  ss<- subset(ndimend,select =c("Row.Names",x1,z))
+  fdf<- cbind(Row.Names = rownames(fdf), fdf)
+  ss<- subset(fdf,select =c("Row.Names",x1,z))
   ar <- arrange(ss,ss[x1],ss[z])
   nacount <- sum(is.na(ar[x1]))
   tt <- tail(ar,nacount)
   tt[,2][is.na(tt[,2])] <- tt[,3]
   tt1 <- data.frame(tt$Row.Names,tt[,2],na.rm=TRUE)
   names(tt1) <- c("Names",x1)
-   tt2 <- na.omit(tt1[,1:2])
+  tt2 <- na.omit(tt1[,1:2])
   return(tt2)
 }
+
+
+
+
